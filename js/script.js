@@ -30,10 +30,10 @@ const displayUserInfo = function (data) {
         </div>
     `;
   overview.append(div);
-  gitRepos();
+  gitRepos(username);
 };
 
-const gitRepos = async function () {
+const gitRepos = async function (username) {
     const fetchRepos = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
     const repoData = await fetchRepos.json();
     displayRepos(repoData);
@@ -59,8 +59,8 @@ repoList.addEventListener("click", function (e) {
 const getRepoInfo = async function (repoName) {
     const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
     const repoInfo = await fetchInfo.json();
-    console.log(repoInfo);
-    //grab the programing languages
+
+    // Grab the programing languages
     const fetchLanguages = await fetch(repoInfo.languages_url);
     const languageData = await fetchLanguages.json();
 
@@ -95,6 +95,7 @@ viewReposButton.addEventListener("click", function () {
     viewReposButton = classList.add("hide");
 }); 
 
+// Dynamic search
 filterInput.addEventListener("input", function (e) {
     const searchText = e.target.value;
     const repos = document.querySelectorAll(".repo");
